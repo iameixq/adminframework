@@ -66,6 +66,10 @@ class Controller extends \Kotchasan\KBase
                 'url' => 'index.php?module=demo-table',
             ),
             array(
+                'text' => 'Event Calendar',
+                'url' => 'index.php?module=demo-calendar',
+            ),
+            array(
                 'text' => 'Grid',
                 'url' => 'index.php?module=demo&amp;page=grid',
             ),

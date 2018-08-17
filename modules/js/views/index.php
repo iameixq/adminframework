@@ -36,6 +36,7 @@ class View extends \Kotchasan\KBase
         $js[] = file_get_contents(ROOT_PATH.'js/ddpanel.js');
         $js[] = file_get_contents(ROOT_PATH.'js/editinplace.js');
         $js[] = file_get_contents(ROOT_PATH.'js/inputgroup.js');
+        $js[] = file_get_contents(ROOT_PATH.'js/calendar.js');
         $js[] = file_get_contents(ROOT_PATH.'js/graphs.js');
         $js[] = file_get_contents(ROOT_PATH.'js/loader.js');
         $js[] = file_get_contents(ROOT_PATH.'js/sorttable.js');

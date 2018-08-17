@@ -14,7 +14,7 @@ use Kotchasan\Html;
 use Kotchasan\Http\Request;
 
 /**
- * module=demo&page=multiselect.
+ * module=demo-multiselect.
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *

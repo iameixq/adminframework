@@ -15,7 +15,7 @@ use Kotchasan\Html;
 use Kotchasan\Http\Request;
 
 /**
- * module=demo-table.
+ * module=demo-multiselect.
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -56,8 +56,8 @@ class Controller extends \Gcms\Controller
 
             return $section->render();
         }
-        // 404.html
+        // 404
 
-        return \Index\Error\Controller::page404();
+        return \Index\Error\Controller::execute($this);
     }
 }

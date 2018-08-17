@@ -52,6 +52,7 @@ class Controller extends \Kotchasan\KBase
         Home::renderQuickMenu($menu, 'icon-upload', '{LNG_Ajax Upload}', 'index.php?module=demo-upload');
         Home::renderQuickMenu($menu, 'icon-bars', '{LNG_Graphs}', 'index.php?module=demo&amp;page=graphs');
         Home::renderQuickMenu($menu, 'icon-table', '{LNG_Table}', 'index.php?module=demo-table');
+        Home::renderQuickMenu($menu, 'icon-calendar', '{LNG_Event Calendar}', 'index.php?module=demo-calendar');
         Home::renderQuickMenu($menu, 'icon-template', '{LNG_Grid}', 'index.php?module=demo&amp;page=grid');
     }
 }

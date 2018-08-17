@@ -86,13 +86,14 @@ class Model extends \Kotchasan\Model
     }
 
     /**
-     * ลงทะเบียนสมาชิกใหม่.
+     * ลงทะเบียนสมาชิกใหม่
+     * คืนค่าแอเรย์ของข้อมูลสมาชิกใหม่.
      *
      * @param Model $model
      * @param array $save       ข้อมูลสมาชิก
      * @param array $permission
      *
-     * @return array คืนค่าแอเรย์ของข้อมูลสมาชิกใหม่
+     * @return array
      */
     public static function execute($model, $save, $permission = null)
     {

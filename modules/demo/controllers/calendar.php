@@ -1,6 +1,6 @@
 <?php
 /**
- * @filesource modules/demo/controllers/upload.php
+ * @filesource modules/demo/controllers/calendar.php
  *
  * @copyright 2016 Goragod.com
  * @license http://www.kotchasan.com/license/
@@ -8,14 +8,14 @@
  * @see http://www.kotchasan.com/
  */
 
-namespace Demo\Upload;
+namespace Demo\Calendar;
 
 use Gcms\Login;
 use Kotchasan\Html;
 use Kotchasan\Http\Request;
 
 /**
- * module=demo-upload.
+ * module=demo-calendar.
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
@@ -33,7 +33,7 @@ class Controller extends \Gcms\Controller
     public function render(Request $request)
     {
         // ข้อความ title bar
-        $this->title = 'Ajax Upload';
+        $this->title = 'Event Calendar';
         // เลือกเมนู
         $this->menu = 'demo';
         // ตรวจสอบ premission (can_config)
@@ -49,10 +49,10 @@ class Controller extends \Gcms\Controller
             $ul = $breadcrumbs->add('ul');
             $ul->appendChild('<li><span class="icon-home">{LNG_Home}</span></li>');
             $section->add('header', array(
-                'innerHTML' => '<h2 class="icon-upload">'.$this->title.'</h2>',
+                'innerHTML' => '<h2 class="icon-calendar">'.$this->title.'</h2>',
             ));
             // แสดงตาราง
-            $section->appendChild(createClass('Demo\Upload\View')->render($request));
+            $section->appendChild(createClass('Demo\Calendar\View')->render($request));
 
             return $section->render();
         }

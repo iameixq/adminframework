@@ -14,7 +14,7 @@ use Kotchasan\Html;
 use Kotchasan\Http\Request;
 
 /**
- * module=demo&page=autocomplete.
+ * module=demo-autocomplete.
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
