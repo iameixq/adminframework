@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @filesource modules/index/views/memberstatus.php
  *
