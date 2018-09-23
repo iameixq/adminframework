@@ -197,10 +197,10 @@ class View extends \Gcms\View
         ));
         /* กลุ่มของ radio สามารถเลือกได้แค่ตัวเดียว */
         $fieldset->add('radiogroups', array(
-            'id' => 'register_fb',
-            'label' => 'สมาชิกเฟซบุ้ค',
-            'labelClass' => 'g-input icon-facebook',
-            'options' => array('0' => 'ไม่ใช่', '1' => 'ใช่', 2 => 'ไม่ทราบ'),
+            'id' => 'register_social',
+            'label' => 'Social',
+            'labelClass' => 'g-input icon-share',
+            'options' => array(0 => 'ไม่ใช่', 1 => 'Facebook', 2 => 'Google'),
             'value' => 1,
         ));
         $groups = $fieldset->add('groups');

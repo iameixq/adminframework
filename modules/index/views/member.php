@@ -119,7 +119,7 @@ class View extends \Gcms\View
                 'active' => array(
                     'class' => 'center',
                 ),
-                'fb' => array(
+                'social' => array(
                     'class' => 'center',
                 ),
                 'phone' => array(
@@ -171,8 +171,13 @@ class View extends \Gcms\View
             $item['active'] = '<span class="icon-valid disabled" title="{LNG_Unable to login}"></span>';
             $item['lastvisited'] = '-';
         }
-        $item['fb'] = $item['fb'] == 1 ? '<a href="//'.$item['website'].'" target=_blank class="icon-facebook notext"></a>' : '';
-        $item['status'] = isset(self::$cfg->member_status[$item['status']]) ? '<span class=status'.$item['status'].'>{LNG_'.self::$cfg->member_status[$item['status']].'}</span>' : '';
+        if ($item['social'] == 1) {
+            $item['social'] = '<a href="//'.$item['website'].'" target=_blank class="icon-facebook notext"></a>';
+        } elseif ($item['social'] == 2) {
+            $item['social'] = '<span class="icon-google notext"></span>';
+        } else {
+            $item['social'] = '';
+        }
         $item['phone'] = self::showPhone($item['phone']);
 
         return $item;

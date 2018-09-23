@@ -58,7 +58,7 @@ class Model extends \Kotchasan\Model
         $model = new static();
 
         return $model->db()->createQuery()
-            ->select('id', 'name', 'active', 'fb', 'phone', 'status', 'create_date', 'lastvisited', 'visited', 'website')
+            ->select('id', 'name', 'active', 'social', 'phone', 'status', 'create_date', 'lastvisited', 'visited', 'website')
             ->from('user');
     }
 }

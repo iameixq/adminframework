@@ -397,7 +397,7 @@ fieldset.item {
 .setup_frm > fieldset > legend > span,
 main h3 {
   display: block;
-  padding: 10px 10px;
+  padding: 10px;
   font-size: 1.625em;
 }
 main h3 select {
@@ -663,6 +663,9 @@ header .inline {
 }
 article.help {
   padding: 0 10px 10px 10px;
+}
+article.help h3 {
+  padding: 10px 0;
 }
 /* tablet, small device */
 @media only screen and (max-width: 960px) {

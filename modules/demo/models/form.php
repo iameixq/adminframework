@@ -52,7 +52,7 @@ class Model extends \Kotchasan\Model
                 'provinceID' => $request->post('register_provinceID')->number(),
                 'zipcode' => $request->post('register_zipcode')->number(),
                 'permission' => $request->post('register_permission', array())->topic(),
-                'fb' => $request->post('register_fb', array())->toInt(),
+                'social' => $request->post('register_social', array())->toInt(),
                 'id' => $request->post('register_id')->toInt(),
             );
             // ดูค่าที่ส่งมา

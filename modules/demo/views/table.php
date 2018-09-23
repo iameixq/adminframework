@@ -42,7 +42,13 @@ class View extends \Gcms\View
             $item['active'] = '<a id=access_'.$item['id'].' class="icon-valid disabled" title="{LNG_Unable to login}"></a>';
             $item['lastvisited'] = '-';
         }
-        $item['fb'] = $item['fb'] == 1 ? '<span class="icon-facebook notext"></span>' : '';
+        if ($item['social'] == 1) {
+            $item['social'] = '<span class="icon-facebook notext"></span>';
+        } elseif ($item['social'] == 2) {
+            $item['social'] = '<span class="icon-google notext"></span>';
+        } else {
+            $item['social'] = '';
+        }
         $item['status'] = isset(self::$cfg->member_status[$item['status']]) ? '<span class=status'.$item['status'].'>{LNG_'.self::$cfg->member_status[$item['status']].'}</span>' : '';
         $item['phone'] = self::showPhone($item['phone']);
         $item['name'] = preg_replace('/[^\s]/', 'x', $item['name']);
@@ -146,7 +152,7 @@ class View extends \Gcms\View
                 'active' => array(
                     'class' => 'center',
                 ),
-                'fb' => array(
+                'social' => array(
                     'class' => 'center',
                 ),
                 'phone' => array(

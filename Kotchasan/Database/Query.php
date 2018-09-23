@@ -322,12 +322,8 @@ abstract class Query extends \Kotchasan\Database\Db
                 $qs = array();
                 $ps = array();
                 foreach ($condition as $i => $item) {
-                    if ($item instanceof Sql) {
-                        $qs[] = $item->text();
-                        $ps += $item->getValues();
-                    } else {
-                        print_r($item);
-                    }
+                    $qs[] = $item->text();
+                    $ps += $item->getValues();
                 }
                 $ret = implode(' '.$operator.' ', $qs);
                 if (!empty($ps)) {
@@ -348,7 +344,7 @@ abstract class Query extends \Kotchasan\Database\Db
             $ret = $this->fieldName($id).' = '.$condition;
         } else {
             // พารามิเตอร์ ไม่ถูกต้อง
-            throw new \InvalidArgumentException('Invalid arguments in buildWhere');
+            trigger_error('Invalid arguments in buildWhere('.var_export($condition, true).')', E_USER_ERROR);
         }
 
         return $ret;
@@ -446,9 +442,13 @@ abstract class Query extends \Kotchasan\Database\Db
             } else {
                 $ret = $name == '*' ? '*' : '`'.$name.'`';
             }
+        } elseif ($name instanceof Sql) {
+            $ret = $name->text();
+        } elseif ($name instanceof QueryBuilder) {
+            $ret = '('.$name->text().')';
         } else {
             // พารามิเตอร์ ไม่ถูกต้อง
-            throw new \InvalidArgumentException('Invalid arguments in fieldName');
+            trigger_error('Invalid arguments in fieldName('.var_export($name, true).')', E_USER_ERROR);
         }
 
         return $ret;
