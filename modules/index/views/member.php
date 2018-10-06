@@ -71,7 +71,7 @@ class View extends \Gcms\View
                     ),
                 ),
                 array(
-                    'class' => 'button green icon-plus',
+                    'class' => 'button pink icon-plus',
                     'href' => $uri->createBackUri(array('module' => 'register', 'id' => 0)),
                     'text' => '{LNG_Register}',
                 ),
@@ -145,8 +145,8 @@ class View extends \Gcms\View
             ),
         ));
         // save cookie
-        setcookie('member_perPage', $table->perPage, time() + 2592000, '/', null, null, true);
-        setcookie('member_sort', $table->sort, time() + 2592000, '/', null, null, true);
+        setcookie('member_perPage', $table->perPage, time() + 2592000, '/', null, HOST, true);
+        setcookie('member_sort', $table->sort, time() + 2592000, '/', null, HOST, true);
         // คืนค่า HTML
 
         return $table->render();
@@ -178,6 +178,7 @@ class View extends \Gcms\View
         } else {
             $item['social'] = '';
         }
+        $item['status'] = isset(self::$cfg->member_status[$item['status']]) ? '<span class=status'.$item['status'].'>{LNG_'.self::$cfg->member_status[$item['status']].'}</span>' : '';
         $item['phone'] = self::showPhone($item['phone']);
 
         return $item;
