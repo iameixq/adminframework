@@ -58,3 +58,6 @@ function initDemoAutocomplete() {
     o
   );
 }
+var doEventClick = function(d) {
+  alert("id=" + this.id + "\nparams=" + d);
+};

@@ -104,7 +104,7 @@ class View extends \Gcms\View
             ),
         );
         /* Javascript สำหรับ Calendar */
-        $form->script('new Calendar("calendar", {events: '.json_encode($events).', month: 8, year: 2018});');
+        $form->script('new Calendar("calendar", {events: '.json_encode($events).', month: 8, year: 2018, onclick: doEventClick});');
 
         return $form->render();
     }
