@@ -10,7 +10,9 @@ if (defined('ROOT_PATH')) {
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         );
-        $conn = new \PDO($db_config['dbdriver'].':host='.$db_config['hostname'].';dbname='.$db_config['dbname'], $db_config['username'], $db_config['password'], $options);
+        $dbdriver = empty($db_config['dbdriver']) ? 'mysql' : $db_config['dbdriver'];
+        $hostname = empty($db_config['hostname']) ? 'localhost' : $db_config['hostname'];
+        $conn = new \PDO($dbdriver.':host='.$hostname.';dbname='.$db_config['dbname'], $db_config['username'], $db_config['password'], $options);
     } catch (\PDOException $e) {
         $error = true;
         echo '<h2>ความผิดพลาดในการเชื่อมต่อกับฐานข้อมูล</h2>';
@@ -27,12 +29,18 @@ if (defined('ROOT_PATH')) {
     }
     if (!$error) {
         // เชื่อมต่อฐานข้อมูลสำเร็จ
-        $content[] = '<li class="correct">เชื่อมต่อฐานข้อมูลสำเร็จ</li>';
+        $content = array('<li class="correct">เชื่อมต่อฐานข้อมูลสำเร็จ</li>');
         try {
             // ตาราง user
             $table = $db_config['prefix'].'_user';
             if (!fieldExists($conn, $table, 'social')) {
                 $conn->query("ALTER TABLE `$table` CHANGE `fb` `social` TINYINT(1) NOT NULL DEFAULT '0'");
+            }
+            if (!fieldExists($conn, $table, 'country')) {
+                $conn->query("ALTER TABLE `$table` ADD `country` VARCHAR(2) NULL AFTER `zipcode`");
+            }
+            if (!fieldExists($conn, $table, 'province')) {
+                $conn->query("ALTER TABLE `$table` ADD `province` VARCHAR(50) NULL AFTER `provinceID`");
             }
             if (!fieldExists($conn, $table, 'token')) {
                 $conn->query("ALTER TABLE `$table` ADD `token` VARCHAR(50) NULL AFTER `password`");
@@ -78,6 +86,20 @@ function fieldExists($conn, $table_name, $field)
     return empty($result) ? false : true;
 }
 
+/**
+ * ตรวจสอบ index ซ้ำ.
+ *
+ * @param $conn
+ * @param $table_name
+ * @param $index
+ */
+function indexExists($conn, $table_name, $index)
+{
+    $query = $conn->query("SELECT index_name FROM INFORMATION_SCHEMA.STATISTICS WHERE table_name='$table_name' AND index_name='$index'");
+    $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+    return empty($result) ? false : true;
+}
 /**
  * @param $config
  * @param $file
