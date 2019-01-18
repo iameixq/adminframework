@@ -8637,7 +8637,7 @@ CREATE TABLE `{prefix}_user` (
   `provinceID` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
   `province` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `zipcode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `country` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `country` varchar(2) COLLATE utf8_unicode_ci DEFAULT 'TH',
   `visited` int(11) UNSIGNED DEFAULT '0',
   `lastvisited` int(11) DEFAULT '0',
   `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -8645,8 +8645,7 @@ CREATE TABLE `{prefix}_user` (
   `create_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `social` tinyint(1) NOT NULL DEFAULT '0',
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --

@@ -9,7 +9,7 @@
  */
 window.Calendar = GClass.create();
 Calendar.prototype = {
-  initialize: function(id, o) {
+  initialize: function (id, o) {
     this.id = id;
     this.url = null;
     this.params = "";
@@ -19,6 +19,7 @@ Calendar.prototype = {
     this.calendar = $G(document.createElement("div"));
     this.calendar.className = "event-calendar";
     this.showToday = false;
+    this.first_day = null;
     for (var property in o) {
       if (property == "month") {
         this.cdate.setMonth(floatval(o[property]) - 1);
@@ -32,30 +33,17 @@ Calendar.prototype = {
     }
     $E(id).appendChild(this.calendar);
     self = this;
-    $G(window).addEvent("resize", function() {
+    $G(window).addEvent("resize", function () {
       self._resize();
     });
     this.setDate(this.cdate);
   },
-  _resize: function() {
+  _resize: function () {
     var cw = this.calendar.getClientWidth(),
       w = cw / 7;
-    document.css(
-      "#" +
-        this.id +
-        " td div{width:" +
-        (w - 2) +
-        "px}#" +
-        this.id +
-        " td{width:" +
-        w +
-        "px;height:" +
-        w +
-        "px}",
-      this.id
-    );
+    document.css("#" + this.id + " td div{width:" + (w - 2) + "px}#" + this.id + " td{width:" + w + "px;height:" + w + "px}", this.id);
   },
-  _drawMonth: function() {
+  _drawMonth: function () {
     var self = this,
       header = document.createElement("div");
     header.className = "header";
@@ -68,7 +56,7 @@ Calendar.prototype = {
     header.appendChild(a);
     span.innerHTML = a.title;
     a.appendChild(span);
-    callClick(a, function() {
+    callClick(a, function () {
       self._move(-1);
     });
     a = document.createElement("a");
@@ -82,7 +70,7 @@ Calendar.prototype = {
     header.appendChild(a);
     span.innerHTML = a.title;
     a.appendChild(span);
-    callClick(a, function() {
+    callClick(a, function () {
       self._move(1);
     });
     var table = document.createElement("table"),
@@ -103,7 +91,7 @@ Calendar.prototype = {
       row,
       cell;
     row = thead.insertRow(0);
-    forEach(Date.dayNames, function(item, i) {
+    forEach(Date.dayNames, function (item, i) {
       cell = document.createElement("th");
       row.appendChild(cell);
       cell.appendChild(document.createTextNode(item));
@@ -122,15 +110,7 @@ Calendar.prototype = {
     }
     var initial_day = 1,
       tmp_init = new Date(intyear, intmonth, 1, 0, 0, 0, 0).dayOfWeek(),
-      max_prev = new Date(
-        tmp_prev_year,
-        tmp_prev_month,
-        0,
-        0,
-        0,
-        0,
-        0
-      ).daysInMonth(),
+      max_prev = new Date(tmp_prev_year, tmp_prev_month, 0, 0, 0, 0, 0).daysInMonth(),
       max_this = new Date(intyear, intmonth, 0, 0, 0, 0, 0).daysInMonth();
     if (tmp_init !== 0) {
       initial_day = max_prev - (tmp_init - 1);
@@ -144,6 +124,7 @@ Calendar.prototype = {
       tmp_month = initial_day == 1 ? intmonth : floatval(tmp_prev_month),
       tmp_year = initial_day == 1 ? intyear : floatval(tmp_prev_year),
       flag_end = 0,
+      d,
       div;
     r = 0;
     for (var x = 0; x < 42; x++) {
@@ -169,17 +150,14 @@ Calendar.prototype = {
       span.innerHTML = pointer;
       cell.appendChild(span);
       div = document.createElement("div");
-      div.id =
-        this.id +
-        "-" +
-        new Date(tmp_year, tmp_month - 1, pointer, 0, 0, 0, 0).format("y-m-d");
+      d = new Date(tmp_year, tmp_month - 1, pointer, 0, 0, 0, 0);
+      if (self.first_day === null) {
+        self.first_day = d;
+      }
+      div.id = this.id + "-" + d.format("y-m-d");
       cell.appendChild(div);
       cls = tmp_month == intmonth ? "curr" : "ex";
-      if (
-        tmp_year == today_year &&
-        tmp_month == today_month &&
-        pointer == today_date
-      ) {
+      if (tmp_year == today_year && tmp_month == today_month && pointer == today_date) {
         cls += " today";
       }
       cell.className = cls;
@@ -190,13 +168,13 @@ Calendar.prototype = {
       a.innerHTML = new Date().format("d F Y");
       a.className = "set-today";
       this.calendar.appendChild(a);
-      a.onclick = function() {
+      a.onclick = function () {
         self.setDate(new Date());
       };
     }
     this._resize();
   },
-  _addLabel: function(d, prop, first) {
+  _addLabel: function (d, prop, first) {
     var self = this,
       div = $E(this.id + "-" + d.format("y-m-d"));
     if (div) {
@@ -224,66 +202,87 @@ Calendar.prototype = {
         a.className = "sub";
       }
       div.appendChild(a);
-      a.onclick = function() {
+      a.onclick = function () {
         return self.onclick.call(this, d);
       };
       return a;
     }
     return null;
   },
-  _drawEvents: function() {
-    var self = this;
-    forEach(this.events, function() {
+  _drawEvents: function () {
+    var a,
+      diff,
+      elems,
+      top,
+      start,
+      d,
+      self = this;
+    forEach(this.events, function () {
       if (this.start) {
-        var a = self._addLabel(new Date(this.start), this, true);
+        a = new Date(this.start);
+        diff = a.compare(self.first_day);
+        if (diff.days < 0) {
+          a = self._addLabel(self.first_day, this, true);
+          this.start = self.first_day.format("y-m-d H:i:s");
+        } else {
+          a = self._addLabel(a, this, true);
+        }
         if (a && this.end) {
-          var diff = new Date(this.end).compare(new Date(this.start));
+          diff = new Date(this.end).compare(new Date(this.start));
           if (diff.days > 0) {
-            var elems = [a],
-              top = a.offsetTop,
-              start = Date.parse(this.start);
+            elems = [a];
+            top = a.offsetTop;
+            start = Date.parse(this.start);
             for (var i = 1; i <= diff.days; i++) {
-              a = self._addLabel(new Date(start + i * 86400000), this, false);
+              d = new Date(start + i * 86400000);
+              a = self._addLabel(d, this, false);
               if (a) {
-                elems.push(a);
-                top = Math.max(top, a.offsetTop);
+                if (d.getDay() == 0) {
+                  self._align(elems, top);
+                  top = a.offsetTop;
+                  elems = [a];
+                } else {
+                  top = Math.max(top, a.offsetTop);
+                  elems.push(a);
+                }
               }
             }
-            forEach(elems, function() {
-              if (this.offsetTop != top) {
-                this.style.top = top + "px";
-              }
-            });
+            self._align(elems, top);
           }
         }
       }
     });
   },
-  _get: function(date) {
+  _align: function (elems, top) {
+    forEach(elems, function () {
+      if (this.offsetTop != top) {
+        this.style.top = top + "px";
+      }
+    });
+  },
+  _get: function (d) {
     var self = this,
-      q =
-        (this.params == "" ? "" : this.params + "&") +
-        ("month=" + (floatval(date.getMonth()) + 1)) +
-        ("&year=" + date.getFullYear());
-    new GAjax().send(this.url, q, function(xhr) {
+      q = ["month=" + (floatval(d.getMonth()) + 1), "year=" + d.getFullYear()];
+    q = (this.params == "" ? "" : this.params + "&") + q.join("&");
+    new GAjax().send(this.url, q, function (xhr) {
       var ds = xhr.responseText.toJSON();
-      self.cdate = date;
+      self.cdate = d;
       self.events = ds || {};
       self._drawMonth();
       self._drawEvents();
     });
   },
-  _move: function(value) {
+  _move: function (value) {
     var d = new Date();
     d.setTime(this.cdate.valueOf());
     d.setMonth(d.getMonth() + value);
     this.setDate(d);
   },
-  setEvents: function(events) {
+  setEvents: function (events) {
     this.events = events;
     this._drawEvents();
   },
-  setDate: function(date) {
+  setDate: function (date) {
     if (this.url !== null) {
       this._get(date);
     } else {
