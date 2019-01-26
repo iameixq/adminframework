@@ -13,13 +13,13 @@ namespace Index\Category;
 use Kotchasan\Language;
 
 /**
- * Model สำหรับจัดการหมวดหมู่ต่างๆ.
+ * คลาสสำหรับอ่านข้อมูลหมวดหมู่.
  *
  * @author Goragod Wiriya <admin@goragod.com>
  *
  * @since 1.0
  */
-class Model extends \Kotchasan\Model
+class Model
 {
   /**
    * @var array
@@ -27,103 +27,73 @@ class Model extends \Kotchasan\Model
   private $datas = array();
 
   /**
-   * อ่านรายชื่อหมวดหมู่จากฐานข้อมูลตามภาษาปัจจุบัน
-   * สำหรับการแสดงผล.
-   *
-   * @param string $type
-   *
-   * @return \static
+   * @return static
    */
-  public static function init($type)
+  public static function init()
   {
     $obj = new static();
-    // ภาษาปัจจุบัน
+    // Query ข้อมูลหมวดหมู่จากตาราง category
+    $query = \Kotchasan\Model::createQuery()
+      ->select('category_id', 'topic', 'type')
+      ->from('category')
+      ->where(array('type', array('department', 'position')))
+      ->order('category_id')
+      ->cacheOn();
+    // ภาษาที่ใช้งานอยู่
     $lng = Language::name();
-    // อ่านรายชื่อตำแหน่งจากฐานข้อมูล
-    foreach (self::generate($type) as $item) {
-      $obj->datas[$item['category_id']] = $item[$lng];
+    foreach ($query->execute() as $item) {
+      $topic = json_decode($item->topic, true);
+      if (isset($topic[$lng])) {
+        $obj->datas[$item->type][$item->category_id] = $topic[$lng];
+      }
     }
 
     return $obj;
   }
 
   /**
-   * Query ข้อมูลหมวดหมู่จากฐานข้อมูล.
-   *
-   * @param string $type
-   *
-   * @return array
-   */
-  public static function generate($type)
-  {
-    // Model
-    $model = new static();
-    // Query
-    $query = $model->db()->createQuery()
-      ->select('id', 'category_id', 'topic')
-      ->from('category')
-      ->where(array('type', $type))
-      ->order('category_id')
-      ->toArray()
-      ->cacheOn();
-    $result = array();
-    foreach ($query->execute() as $item) {
-      $result[$item['category_id']] = array(
-        'id' => $item['id'],
-        'category_id' => $item['category_id'],
-      );
-      $topic = @unserialize($item['topic']);
-      foreach (Language::installedLanguage() as $lng) {
-        $result[$item['category_id']][$lng] = is_array($topic) && isset($topic[$lng]) ? $topic[$lng] : '';
-      }
-    }
-
-    return $result;
-  }
-
-  /**
-   * อ่านหมวดหมู่สำหรับใส่ลงใน DataTable
-   * ถ้าไม่มีคืนค่าข้อมูลเปล่าๆ 1 แถว.
-   *
-   * @param string $type
-   *
-   * @return array
-   */
-  public static function toDataTable($type)
-  {
-    // Query ข้อมูลหมวดหมู่จากฐานข้อมูล
-    $result = self::generate($type);
-    if (empty($result)) {
-      $result = array(array('id' => 0, 'category_id' => 1));
-      foreach (Language::installedLanguage() as $lng) {
-        $result[0][$lng] = '';
-      }
-    }
-
-    return $result;
-  }
-
-  /**
    * ลิสต์รายการหมวดหมู่
+   * สำหรับใส่ลงใน select.
+   *
+   * @param string $type
+   *
+   * @return array
+   */
+  private function toSelect($type)
+  {
+    return empty($this->datas[$type]) ? array() : $this->datas[$type];
+  }
+
+  /**
+   * ลิสต์รายแผนก
    * สำหรับใส่ลงใน select.
    *
    * @return array
    */
-  public function toSelect()
+  public function department()
   {
-    return $this->datas;
+    return $this->toSelect('department');
   }
 
   /**
-   * อ่านหมวดหมู่จาก $category_id
-   * ไม่พบ คืนค่าว่าง.
+   * ลิสต์รายการตำแหน่ง
+   * สำหรับใส่ลงใน select.
    *
-   * @param int $category_id
-   *
-   * @return string
+   * @return array
    */
-  public function get($category_id)
+  public function position()
   {
-    return isset($this->datas[$category_id]) ? $this->datas[$category_id] : '';
+    return $this->toSelect('position');
+  }
+
+  /**
+   * คืนค่ารายการที่ต้องการ.
+   *
+   * @param string $type
+   * @param int    $category_id
+   */
+  public function get($type, $category_id)
+  {
+    return empty($this->datas[$type][$category_id]) ? '' : $this->datas[$type][$category_id];
   }
 }

@@ -1,7 +1,5 @@
 <?php
-
 /* config.php */
-
 return array(
     'version' => '2.0.2',
     'web_title' => 'Kotchasan',

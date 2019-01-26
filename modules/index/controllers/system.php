@@ -39,8 +39,10 @@ class Controller extends \Gcms\Controller
     $this->title = Language::get('General site settings');
     // เลือกเมนู
     $this->menu = 'settings';
+    // สมาชิก
+    $login = Login::isMember();
     // สามารถตั้งค่าระบบได้
-    if (Login::checkPermission(Login::isMember(), 'can_config')) {
+    if (Login::checkPermission($login, 'can_config')) {
       // แสดงผล
       $section = Html::create('section', array(
           'class' => 'content_bg',
@@ -58,12 +60,11 @@ class Controller extends \Gcms\Controller
       // โหลด config
       $config = Config::load(ROOT_PATH.'settings/config.php');
       // แสดงฟอร์ม
-      $section->appendChild(createClass('Index\System\View')->render($config));
-
+      $section->appendChild(createClass('Index\System\View')->render($config, $login));
+      // คืนค่า HTML
       return $section->render();
     }
     // 404
-
     return \Index\Error\Controller::execute($this);
   }
 }

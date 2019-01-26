@@ -76,7 +76,6 @@ class Config extends \Kotchasan\Config
     0 => 'สมาชิก',
     1 => 'ผู้ดูแลระบบ',
   );
-
   /*
    * คีย์สำหรับการเข้ารหัส ควรแก้ไขให้เป็นรหัสของตัวเอง
    * ตัวเลขหรือภาษาอังกฤษเท่านั้น ไม่น้อยกว่า 10 ตัว
@@ -95,4 +94,22 @@ class Config extends \Kotchasan\Config
    * @var string
    */
   public $skin = 'skin/default';
+  /**
+   * สามารถขอรหัสผ่านในหน้าเข้าระบบได้.
+   *
+   * @var bool
+   */
+  public $user_forgot = 0;
+  /**
+   * บุคคลทั่วไป สามารถสมัครสมาชิกได้.
+   *
+   * @var bool
+   */
+  public $user_register = 0;
+  /**
+   * ส่งอีเมลต้อนรับ เมื่อบุคคลทั่วไปสมัครสมาชิก
+   *
+   * @var bool
+   */
+  public $welcome_email = 0;
 }

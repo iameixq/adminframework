@@ -82,7 +82,6 @@ function fieldExists($conn, $table_name, $field)
 {
   $query = $conn->query("SHOW COLUMNS FROM `$table_name` LIKE '$field'");
   $result = $query->fetchAll(\PDO::FETCH_ASSOC);
-
   return empty($result) ? false : true;
 }
 
@@ -97,7 +96,6 @@ function indexExists($conn, $table_name, $index)
 {
   $query = $conn->query("SELECT index_name FROM INFORMATION_SCHEMA.STATISTICS WHERE table_name='$table_name' AND index_name='$index'");
   $result = $query->fetchAll(\PDO::FETCH_ASSOC);
-
   return empty($result) ? false : true;
 }
 

@@ -112,7 +112,6 @@ class Login extends \Kotchasan\Login
     if ($login_result === null) {
       // user หรือ password ไม่ถูกต้อง
       self::$login_input = isset($item) ? 'password' : 'username';
-
       return isset($item) ? Language::replace('Incorrect :name', array(':name' => Language::get('Password'))) : Language::get('not a registered user');
     }
     return $login_result;
