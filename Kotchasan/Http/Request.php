@@ -243,7 +243,7 @@ class Request extends AbstractRequest implements \Psr\Http\Message\RequestInterf
         foreach ($_FILES as $name => $file) {
           if (is_array($file['name'])) {
             foreach ($file['name'] as $key => $value) {
-              $this->uploadedFiles->add($key, $file['tmp_name'][$key], $value, $file['type'][$key], $file['size'][$key], $file['error'][$key]);
+              $this->uploadedFiles->add($name.'['.$key.']', $file['tmp_name'][$key], $value, $file['type'][$key], $file['size'][$key], $file['error'][$key]);
             }
           } else {
             $this->uploadedFiles->add($name, $file['tmp_name'], $file['name'], $file['type'], $file['size'], $file['error']);
