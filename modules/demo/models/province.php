@@ -22,125 +22,124 @@ use Kotchasan\Http\Request;
  */
 class Model extends \Kotchasan\Model
 {
+    /**
+     * อ่านข้อมูล อำเภอ สำหรับใส่ลงใน select.
+     *
+     * @param int $provinceID
+     *
+     * @return array
+     */
+    public static function amphur($provinceID)
+    {
+        $query = static::createQuery()
+            ->select('id', 'amphur')
+            ->from('amphur')
+            ->where(array('province_id', $provinceID))
+            ->cacheOn();
+        $result = array();
+        foreach ($query->execute() as $item) {
+            $result[$item->id] = $item->amphur;
+        }
 
-  /**
-   * อ่านข้อมูล อำเภอ สำหรับใส่ลงใน select.
-   *
-   * @param int $provinceID
-   *
-   * @return array
-   */
-  public static function amphur($provinceID)
-  {
-    $query = static::createQuery()
-      ->select('id', 'amphur')
-      ->from('amphur')
-      ->where(array('province_id', $provinceID))
-      ->cacheOn();
-    $result = array();
-    foreach ($query->execute() as $item) {
-      $result[$item->id] = $item->amphur;
+        return $result;
     }
 
-    return $result;
-  }
+    /**
+     * อ่านข้อมูล ตำบล สำหรับใส่ลงใน select.
+     *
+     * @param int $amphurID
+     *
+     * @return array
+     */
+    public static function district($amphurID)
+    {
+        $query = static::createQuery()
+            ->select('id', 'district')
+            ->from('district')
+            ->where(array('amphur_id', $amphurID))
+            ->cacheOn();
+        $result = array();
+        foreach ($query->execute() as $item) {
+            $result[$item->id] = $item->district;
+        }
 
-  /**
-   * อ่านข้อมูล ตำบล สำหรับใส่ลงใน select.
-   *
-   * @param int $amphurID
-   *
-   * @return array
-   */
-  public static function district($amphurID)
-  {
-    $query = static::createQuery()
-      ->select('id', 'district')
-      ->from('district')
-      ->where(array('amphur_id', $amphurID))
-      ->cacheOn();
-    $result = array();
-    foreach ($query->execute() as $item) {
-      $result[$item->id] = $item->district;
+        return $result;
     }
 
-    return $result;
-  }
-
-  /**
-   * @param $provinceID
-   * @param $amphurID
-   * @param $districtID
-   */
-  public static function find($provinceID, $amphurID, $districtID)
-  {
-    return static::createQuery()
-        ->from('province P')
-        ->join('amphur A', 'INNER', array('A.province_id', 'P.id'))
-        ->join('district D', 'INNER', array('D.amphur_id', 'A.id'))
-        ->where(array(
-          array('P.id', $provinceID),
-          array('A.id', $amphurID),
-          array('D.id', $districtID),
-        ))
-        ->toArray()
-        ->cacheOn()
-        ->first('province', 'amphur', 'district');
-  }
-
-  /**
-   * คืนค่า ตำบล อำเภอ จังหวัด.
-   *
-   * @param Request $request
-   *
-   * @return JSON
-   */
-  public function get(Request $request)
-  {
-    // session, referer
-    if ($request->initSession() && $request->isReferer()) {
-      // ค่าที่ส่งมา
-      $src = $request->post('srcItem')->toString();
-      // อำเภอตามจังหวัดที่เลือก
-      $amphur = self::amphur($request->post('provinceID')->toInt());
-      // อำเภอที่ต้องการ ถ้าไม่มีใช้อำเภอรายการแรกสุด
-      $amphurID = $request->post('amphurID')->toInt();
-      $amphurID = isset($amphur[$amphurID]) ? $amphurID : ArrayTool::getFirstKey($amphur);
-      if ($src == 'amphurID') {
-        // เลือกอำเภอ
-        $result = array(
-          'districtID' => self::district($amphurID),
-        );
-      } elseif ($src == 'provinceID') {
-        // เลือกจังหวัด
-        $result = array(
-          'amphurID' => $amphur,
-          'districtID' => self::district($amphurID),
-        );
-      }
-      if (!empty($result)) {
-        // คืนค่า JSON
-        echo json_encode($result);
-      }
-    }
-  }
-
-  /**
-   * อ่านข้อมูล จังหวัด สำหรับใส่ลงใน select.
-   *
-   * @return array
-   */
-  public static function province()
-  {
-    $query = static::createQuery()
-      ->select('id', 'province')
-      ->from('province')
-      ->cacheOn();
-    $result = array();
-    foreach ($query->execute() as $item) {
-      $result[$item->id] = $item->province;
+    /**
+     * @param $provinceID
+     * @param $amphurID
+     * @param $districtID
+     */
+    public static function find($provinceID, $amphurID, $districtID)
+    {
+        return static::createQuery()
+            ->from('province P')
+            ->join('amphur A', 'INNER', array('A.province_id', 'P.id'))
+            ->join('district D', 'INNER', array('D.amphur_id', 'A.id'))
+            ->where(array(
+                array('P.id', $provinceID),
+                array('A.id', $amphurID),
+                array('D.id', $districtID),
+            ))
+            ->toArray()
+            ->cacheOn()
+            ->first('province', 'amphur', 'district');
     }
 
-    return $result;
-  }
+    /**
+     * คืนค่า ตำบล อำเภอ จังหวัด.
+     *
+     * @param Request $request
+     *
+     * @return JSON
+     */
+    public function get(Request $request)
+    {
+        // session, referer
+        if ($request->initSession() && $request->isReferer()) {
+            // ค่าที่ส่งมา
+            $src = $request->post('srcItem')->toString();
+            // อำเภอตามจังหวัดที่เลือก
+            $amphur = self::amphur($request->post('provinceID')->toInt());
+            // อำเภอที่ต้องการ ถ้าไม่มีใช้อำเภอรายการแรกสุด
+            $amphurID = $request->post('amphurID')->toInt();
+            $amphurID = isset($amphur[$amphurID]) ? $amphurID : ArrayTool::getFirstKey($amphur);
+            if ($src == 'amphurID') {
+                // เลือกอำเภอ
+                $result = array(
+                    'districtID' => self::district($amphurID),
+                );
+            } elseif ($src == 'provinceID') {
+                // เลือกจังหวัด
+                $result = array(
+                    'amphurID' => $amphur,
+                    'districtID' => self::district($amphurID),
+                );
+            }
+            if (!empty($result)) {
+                // คืนค่า JSON
+                echo json_encode($result);
+            }
+        }
+    }
+
+    /**
+     * อ่านข้อมูล จังหวัด สำหรับใส่ลงใน select.
+     *
+     * @return array
+     */
+    public static function province()
+    {
+        $query = static::createQuery()
+            ->select('id', 'province')
+            ->from('province')
+            ->cacheOn();
+        $result = array();
+        foreach ($query->execute() as $item) {
+            $result[$item->id] = $item->province;
+        }
+
+        return $result;
+    }
 }

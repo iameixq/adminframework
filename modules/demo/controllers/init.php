@@ -21,81 +21,80 @@ use Kotchasan\Http\Request;
  */
 class Controller extends \Kotchasan\KBase
 {
+    /**
+     * ฟังก์ชั่นเริ่มต้นการทำงานของโมดูลที่ติดตั้ง
+     * และจัดการเมนูของโมดูล.
+     *
+     * @param Request                $request
+     * @param \Index\Menu\Controller $menu
+     * @param array                  $login
+     */
+    public static function execute(Request $request, $menu, $login)
+    {
+        // รายการเมนูย่อย
+        $submenus = array(
+            array(
+                'text' => 'Typography',
+                'url' => 'index.php?module=demo&amp;page=typography',
+            ),
+            array(
+                'text' => 'Message',
+                'url' => 'index.php?module=demo&amp;page=message',
+            ),
+            array(
+                'text' => 'Form &amp; Form Component',
+                'url' => 'index.php?module=demo&amp;page=form',
+            ),
+            array(
+                'text' => 'District Amphur Province',
+                'url' => 'index.php?module=demo-multiselect',
+            ),
+            array(
+                'text' => 'Auto Complete',
+                'url' => 'index.php?module=demo-autocomplete',
+            ),
+            array(
+                'text' => 'Ajax Upload',
+                'url' => 'index.php?module=demo-upload',
+            ),
+            array(
+                'text' => 'Graphs',
+                'url' => 'index.php?module=demo&amp;page=graphs',
+            ),
+            array(
+                'text' => 'Table',
+                'url' => 'index.php?module=demo-table',
+            ),
+            array(
+                'text' => 'Event Calendar',
+                'url' => 'index.php?module=demo-calendar',
+            ),
+            array(
+                'text' => 'Grid',
+                'url' => 'index.php?module=demo&amp;page=grid',
+            ),
+            array(
+                'text' => 'Icons',
+                'url' => WEB_URL.'skin/index.html',
+                'target' => '_blank',
+            ),
+        );
+        // สร้างเมนูบนสุดก่อนเมนู settings
+        $menu->addTopLvlMenu('demo', 'Demo', null, $submenus, 'settings');
+    }
 
-  /**
-   * ฟังก์ชั่นเริ่มต้นการทำงานของโมดูลที่ติดตั้ง
-   * และจัดการเมนูของโมดูล.
-   *
-   * @param Request                $request
-   * @param \Index\Menu\Controller $menu
-   * @param array                  $login
-   */
-  public static function execute(Request $request, $menu, $login)
-  {
-    // รายการเมนูย่อย
-    $submenus = array(
-      array(
-        'text' => 'Typography',
-        'url' => 'index.php?module=demo&amp;page=typography',
-      ),
-      array(
-        'text' => 'Message',
-        'url' => 'index.php?module=demo&amp;page=message',
-      ),
-      array(
-        'text' => 'Form &amp; Form Component',
-        'url' => 'index.php?module=demo&amp;page=form',
-      ),
-      array(
-        'text' => 'District Amphur Province',
-        'url' => 'index.php?module=demo-multiselect',
-      ),
-      array(
-        'text' => 'Auto Complete',
-        'url' => 'index.php?module=demo-autocomplete',
-      ),
-      array(
-        'text' => 'Ajax Upload',
-        'url' => 'index.php?module=demo-upload',
-      ),
-      array(
-        'text' => 'Graphs',
-        'url' => 'index.php?module=demo&amp;page=graphs',
-      ),
-      array(
-        'text' => 'Table',
-        'url' => 'index.php?module=demo-table',
-      ),
-      array(
-        'text' => 'Event Calendar',
-        'url' => 'index.php?module=demo-calendar',
-      ),
-      array(
-        'text' => 'Grid',
-        'url' => 'index.php?module=demo&amp;page=grid',
-      ),
-      array(
-        'text' => 'Icons',
-        'url' => WEB_URL.'skin/index.html',
-        'target' => '_blank',
-      ),
-    );
-    // สร้างเมนูบนสุดก่อนเมนู settings
-    $menu->addTopLvlMenu('demo', 'Demo', null, $submenus, 'settings');
-  }
+    /**
+     * รายการ permission ของโมดูล.
+     *
+     * @param array $permissions
+     *
+     * @return array
+     */
+    public static function updatePermissions($permissions)
+    {
+        // ตัวอย่างการกำหนด permission ของโมดูล
+        $permissions['can_view'] = 'สามารถเปิดดูโมดูลได้';
 
-  /**
-   * รายการ permission ของโมดูล.
-   *
-   * @param array $permissions
-   *
-   * @return array
-   */
-  public static function updatePermissions($permissions)
-  {
-    // ตัวอย่างการกำหนด permission ของโมดูล
-    $permissions['can_view'] = 'สามารถเปิดดูโมดูลได้';
-
-    return $permissions;
-  }
+        return $permissions;
+    }
 }
