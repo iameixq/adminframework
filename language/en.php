@@ -3,7 +3,7 @@
 return array(
   'BOOLEANS' => array(
     0 => 'Disable',
-    1 => 'Enabled',
+    1 => 'Enabled'
   ),
   'DATE_FORMAT' => 'd M Y, H:i',
   'DATE_LONG' => array(
@@ -13,7 +13,7 @@ return array(
     3 => 'Wednesday',
     4 => 'Thursday',
     5 => 'Friday',
-    6 => 'Saturday',
+    6 => 'Saturday'
   ),
   'DATE_SHORT' => array(
     0 => 'Su',
@@ -22,11 +22,11 @@ return array(
     3 => 'We',
     4 => 'Th',
     5 => 'Fr',
-    6 => 'Sa',
+    6 => 'Sa'
   ),
   'MAIL_PROGRAMS' => array(
     0 => 'Send with PHP',
-    1 => 'Send with PHPMailer (recommended).',
+    1 => 'Send with PHPMailer (recommended).'
   ),
   'MONTH_LONG' => array(
     1 => 'January',
@@ -40,7 +40,7 @@ return array(
     9 => 'September',
     10 => 'October',
     11 => 'November',
-    12 => 'December',
+    12 => 'December'
   ),
   'MONTH_SHORT' => array(
     1 => 'Jan',
@@ -54,18 +54,18 @@ return array(
     9 => 'Sep',
     10 => 'Oct',
     11 => 'Nov',
-    12 => 'Dec',
+    12 => 'Dec'
   ),
   'PERMISSIONS' => array(
-    'can_config' => 'Can configure the system',
+    'can_config' => 'Can configure the system'
   ),
   'SEXES' => array(
     'f' => 'Female',
-    'm' => 'Male',
+    'm' => 'Male'
   ),
   'SMTPSECURIES' => array(
     '' => 'Clear Text',
-    'ssl' => 'Server using a secure connection (SSL)',
+    'ssl' => 'Server using a secure connection (SSL)'
   ),
-  'YEAR_OFFSET' => 0,
+  'YEAR_OFFSET' => 0
 );
