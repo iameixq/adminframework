@@ -1,3 +1,4 @@
+var CANCEL = 'Cancel';
 var CHANGE_COLOR = 'change color';
 var CHECK = 'check';
 var DELETE = 'delete';

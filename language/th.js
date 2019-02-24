@@ -1,3 +1,4 @@
+var CANCEL = 'ยกเลิก';
 var CHANGE_COLOR = 'เปลี่ยนสี';
 var CHECK = 'เลือก';
 var DELETE = 'ลบ';
