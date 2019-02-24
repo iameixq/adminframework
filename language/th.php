@@ -21,7 +21,6 @@ return array(
   'Can login' => 'สามารถเข้าระบบได้',
   'Can not be performed this request. Because they do not find the information you need or you are not allowed' => 'ไม่สามารถดำเนินการตามที่ร้องขอได้ เนื่องจากไม่พบข้อมูลที่ต้องการ หรือ คุณไม่มีสิทธิ์',
   'Change language' => 'สลับภาษา',
-  'clear selected' => 'ไม่เลือก',
   'Click to edit' => 'คลิกเพื่อแก้ไข',
   'Country' => 'ประเทศ',
   'Create' => 'สร้าง',
