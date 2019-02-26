@@ -10,6 +10,7 @@ var NEXT_MONTH = 'Next Month';
 var PLEASE_BROWSE_FILE = 'Please browse file';
 var PLEASE_FILL_IN = 'Please fill in';
 var PLEASE_SAVE_BEFORE_CONTINUING = 'Please save before continuing';
+var PLEASE_SELECT = 'Please select';
 var PLEASE_SELECT_AT_LEAST_ONE_ITEM = 'Please select at least one item';
 var PREV_MONTH = 'Prev Month';
 var SELECT_ALL = 'select all';
