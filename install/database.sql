@@ -11,15 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `kot_gcms`
---
-
 -- --------------------------------------------------------
 
 --
@@ -8621,12 +8612,12 @@ INSERT INTO `{prefix}_province` (`id`, `province`) VALUES
 --
 
 CREATE TABLE `{prefix}_user` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `salt` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
+  `salt` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 0,
   `permission` text COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `sex` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -8638,13 +8629,13 @@ CREATE TABLE `{prefix}_user` (
   `province` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `zipcode` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `country` varchar(2) COLLATE utf8_unicode_ci DEFAULT 'TH',
-  `visited` int(11) UNSIGNED DEFAULT '0',
-  `lastvisited` int(11) DEFAULT '0',
+  `visited` int(11) UNSIGNED DEFAULT 0,
+  `lastvisited` int(11) DEFAULT 0,
   `session_id` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ip` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `social` tinyint(1) NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `social` tinyint(1) NOT NULL DEFAULT 0,
   `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -8695,12 +8686,9 @@ ALTER TABLE `{prefix}_user`
 -- AUTO_INCREMENT for table `{prefix}_language`
 --
 ALTER TABLE `{prefix}_language`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `{prefix}_user`
 --
 ALTER TABLE `{prefix}_user`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
