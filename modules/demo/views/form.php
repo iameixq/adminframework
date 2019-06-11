@@ -176,6 +176,14 @@ class View extends \Gcms\View
             'label' => '{LNG_Zipcode}',
             'maxlength' => 10,
         ));
+        /* ตัวเลือกคล้าย select + text สามารถพิมพ์เพื่อเลือกรายการได้ */
+        $fieldset->add('text', array(
+            'id' => 'register_country',
+            'label' => '{LNG_Country}',
+            'labelClass' => 'g-input icon-world',
+            'itemClass' => 'item',
+            'datalist' => \Kotchasan\Country::all(),
+        ));
         // province
         $fieldset->add('checkboxgroups', array(
             'id' => 'register_province',
