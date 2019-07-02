@@ -55,17 +55,18 @@ class View extends \Gcms\View
             'accept' => array('jpg', 'jpeg', 'gif', 'png'),
         ));
         $fieldset = $form->add('fieldset', array(
-            'title' => 'อัปโหลดไฟล์นามสกุล .pdf ได้ครั้งละหลายๆไฟล์',
+            'title' => 'อัปโหลดไฟล์ได้ครั้งละหลายๆไฟล์',
         ));
         $fieldset->add('file', array(
             'name' => 'pdf_uploads[]',
             'id' => 'pdf_uploads',
-            'labelClass' => 'g-input icon-pdf',
+            'labelClass' => 'g-input icon-gallery',
             'itemClass' => 'item',
             'label' => '{LNG_Browse file}',
-            'comment' => Language::replace('Upload :type files no larger than :size', array(':type' => 'pdf', ':size' => UploadedFile::getUploadSize())),
-            'accept' => array('pdf'),
+            'comment' => Language::replace('Upload :type files no larger than :size', array(':type' => 'jpg, jpeg, gif, png, pdf', ':size' => UploadedFile::getUploadSize())),
+            'accept' => array('jpg', 'jpeg', 'gif', 'png', 'pdf'),
             'multiple' => true,
+            'dataPreview' => 'multi_preview',
         ));
         $fieldset = $form->add('fieldset', array(
             'class' => 'submit',

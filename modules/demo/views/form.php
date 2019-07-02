@@ -210,6 +210,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-share',
             'options' => array(0 => 'ไม่ใช่', 1 => 'Facebook', 2 => 'Google'),
             'value' => 1,
+            'button' => true,
         ));
         $groups = $fieldset->add('groups');
         /* input ชนิด Text ที่สามารถรับค่าตัวเลขและจุดทศนิยมสองหลัก ใช้สำหรับกรอกจำนวนเงิน มีค่าระหว่าง 100 - 200 */
