@@ -167,7 +167,6 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-number',
             'itemClass' => 'width33',
             'label' => '{LNG_Zipcode}',
-            'pattern' => '[0-9]+',
             'maxlength' => 10,
             'value' => $user['zipcode'],
         ));

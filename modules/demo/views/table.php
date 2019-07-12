@@ -112,6 +112,7 @@ class View extends \Gcms\View
             /* ตัวเลือกด้านบนของตาราง ใช้จำกัดผลลัพท์การ query */
             'filters' => array(
                 'status' => array(
+                    'type' => 'checkbox',
                     'name' => 'status',
                     'default' => -1,
                     'text' => '{LNG_Member status}',
