@@ -102,12 +102,11 @@ class View extends \Gcms\View
             'value' => $user['name'],
         ));
         // id_card
-        $groups->add('text', array(
+        $groups->add('number', array(
             'id' => 'register_id_card',
             'labelClass' => 'g-input icon-profile',
             'itemClass' => 'width50',
             'label' => '{LNG_Identification No.}',
-            'pattern' => '[0-9]+',
             'maxlength' => 13,
             'value' => $user['id_card'],
             'validator' => array('keyup,change', 'checkIdcard'),
@@ -187,6 +186,7 @@ class View extends \Gcms\View
             // permission
             $fieldset->add('checkboxgroups', array(
                 'id' => 'register_permission',
+                'itemClass' => 'item',
                 'label' => '{LNG_Permission}',
                 'labelClass' => 'g-input icon-list',
                 'options' => \Gcms\Controller::getPermissions(),
