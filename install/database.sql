@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 16, 2019 at 01:54 AM
--- Server version: 10.1.38-MariaDB
+-- Generation Time: Oct 30, 2019 at 08:45 AM
+-- Server version: 10.1.41-MariaDB
 -- PHP Version: 7.0.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -8636,14 +8636,6 @@ CREATE TABLE `{prefix}_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `{prefix}_user`
---
-
-INSERT INTO `{prefix}_user` (`id`, `username`, `password`, `salt`, `status`, `permission`, `name`, `sex`, `id_card`, `address`, `phone`, `provinceID`, `zipcode`, `visited`, `lastvisited`, `session_id`, `ip`, `create_date`) VALUES
-(1, 'admin@localhost', 'b620e8b83d7fcf7278148d21b088511917762014', 'admin@localhost', 1, 'can_config,can_handle_all_edocument,can_upload_edocument', 'แอดมิน', 'm', '', '1 หมู่ 1 ตำบล ลาดหญ้า อำเภอ เมือง', '08080808', '102', '71190', 138, 1500887470, '', '', '0000-00-00 00:00:00'),
-(2, 'demo@localhost', 'db75cdf3d5e77181ec3ed6072b56a8870eb6822d', 'demo@localhost', 2, 'can_upload_edocument', 'ช่างซ่อม 1', 'f', '', '', '0123456788', '101', '', 83, 1500887481, '', '', '2017-07-02 08:10:30');
-
---
 -- Indexes for table `{prefix}_language`
 --
 ALTER TABLE `{prefix}_language`
@@ -8655,6 +8647,7 @@ ALTER TABLE `{prefix}_language`
 ALTER TABLE `{prefix}_user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `username` (`username`);
+
 --
 -- Indexes for table `{prefix}_amphur`
 --

@@ -39,20 +39,47 @@ class View extends \Gcms\View
         ));
         $events = array(
             array(
-                'id' => 999,
-                'title' => 'Repeating Event',
-                'start' => '2018-08-09T16:00:00',
+                'title' => 'Over years',
+                'start' => '2018-11-24 08:00:00',
+                'end' => '2019-01-17 15:30:00',
+                'color' => '#060',
+            ),
+            array(
+                'title' => 'Before',
+                'start' => '2018-07-28',
+            ),
+            array(
+                'title' => 'First',
+                'start' => '2018-07-29',
+            ),
+
+            array(
+                'title' => '6 days',
+                'start' => '2018-08-5',
+                'end' => '2018-08-10',
+                'color' => '#F0F',
+            ),
+            array(
+                'title' => 'Last',
+                'start' => '2018-09-08',
+                'end' => '2018-09-08',
+            ),
+            array(
+                'title' => 'Next',
+                'start' => '2018-09-09',
             ),
             array(
                 'title' => 'All Day Event',
                 'start' => '2018-08-01',
                 'color' => '#F00',
             ),
+
             array(
                 'title' => 'Long Event',
                 'start' => '2018-08-07',
                 'end' => '2018-08-10',
             ),
+
             array(
                 'id' => 999,
                 'title' => 'Repeating Event',
@@ -104,7 +131,7 @@ class View extends \Gcms\View
             ),
         );
         /* Javascript สำหรับ Calendar */
-        $form->script('new Calendar("calendar", {events: '.json_encode($events).', month: 8, year: 2018, onclick: doEventClick});');
+        $form->script('new Calendar("calendar", {events: '.json_encode($events).', month: 8, year: 2018, onclick: doEventClick, showButton: true});');
 
         return $form->render();
     }
