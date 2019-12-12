@@ -69,7 +69,7 @@ final class Language extends \Kotchasan\KBase
             }
         }
 
-        return $default;
+        return $default === null ? $key : $default;
     }
 
     /**
