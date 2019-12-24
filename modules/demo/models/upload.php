@@ -39,18 +39,19 @@ class Model extends \Kotchasan\Model
             );
             // อัปโหลดไฟล์
             foreach ($request->getUploadedFiles() as $item => $file) {
+                // ไอดีของอินพุตที่ส่งมา
                 $input = $item === 'image_upload' ? 'image_upload' : 'pdf_uploads';
                 /* @var $file UploadedFile */
                 if ($file->hasUploadFile()) {
                     // ตรวจสอบนามสกุลของไฟล์
                     if (!$file->validFileExt(($input == 'image_upload' ? array('jpg', 'jpeg', 'gif', 'png') : array('pdf')))) {
-                        // ชนิดของไฟล์ไม่ถูกต้อง
+                        // error ชนิดของไฟล์ไม่ถูกต้อง
                         $ret['ret_'.$input] = Language::get('The type of file is invalid');
                     } else {
                         try {
                             // อัปโหลดไฟล์ไปยังปลายทาง
                             //$file->moveTo(ROOT_PATH.DATA_FOLDER.$file->getClientFilename().'.'.$file->getClientFileExt());
-                            // ตัวอย่างคืนค่าข้อมูลที่อัปดหลด
+                            // ตัวอย่างคืนค่าข้อมูลที่อัปโหลด
                             $upload[$input][$item] = array(
                                 'name' => $file->getClientFilename(),
                                 'ext' => $file->getClientFileExt(),

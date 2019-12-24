@@ -121,14 +121,14 @@ class Model extends \Kotchasan\Model
     {
         $ret = array();
         // session, token, member
-        if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
+        if ($request->initSession() && $request->isSafe() && Login::isMember()) {
             // รับค่าจากการ POST
             $save = array(
                 'provinceID' => $request->post('provinceID')->toInt(),
                 'amphurID' => $request->post('amphurID')->toInt(),
                 'districtID' => $request->post('districtID')->toInt(),
             );
-            // ดูค่าที่ส่งมา
+            // ดูค่าที่ส่งมา แสดงผลใน console ของ Browser
             //print_r($_POST);
             //print_r($save);
             $result = \Demo\Province\Model::find($save['provinceID'], $save['amphurID'], $save['districtID']);
@@ -137,12 +137,13 @@ class Model extends \Kotchasan\Model
             //$this->db()->update($this->getTableName('user'), $save['id'], $save);
             // คืนค่า
             //$ret['alert'] = Language::get('Saved successfully');
-            // ไปหน้าแสดงรายการข้อมูล พร้อมกับส่งค่าที่ส่งมากลับไปแสดงผล
+            // รีไดเร็คไปหน้าแสดงรายการข้อมูล ด้วยพารามิเตอร์ต่างๆของตารางที่เลือกไว้ พร้อมกับส่งค่าที่ส่งมากลับไปแสดงผล
             $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'demo-autocomplete') + $save);
             // เคลียร์
             $request->removeToken();
         }
         if (empty($ret)) {
+            // แจ้งเตือนการ submit ไม่ถูกต้อง
             $ret['alert'] = Language::get('Unable to complete the transaction');
         }
         // คืนค่าเป็น JSON

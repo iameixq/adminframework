@@ -24,6 +24,20 @@ use Kotchasan\Language;
 class Model extends \Kotchasan\Model
 {
     /**
+     * อ่านข้อมูลสำหรับใส่ลงในตาราง.
+     *
+     * @return array
+     */
+    public static function toDataTable()
+    {
+        $model = new static();
+
+        return $model->db()->createQuery()
+            ->select('id', 'name', 'active', 'social', 'phone', 'status', 'create_date', 'lastvisited', 'visited')
+            ->from('user');
+    }
+
+    /**
      * รับค่าจากตาราง (table.php).
      *
      * @param Request $request
@@ -36,9 +50,10 @@ class Model extends \Kotchasan\Model
             // รับค่าจากการ POST
             $action = $request->post('action')->toString();
             if ($action == 'preview') {
+                // แสดง Modal ฟอร์ม
                 $ret['modal'] = Language::trans(createClass('Demo\Preview\View')->render($request));
             } else {
-                // ตรวจสอบค่าที่ส่งมา
+                // ดูค่าที่ส่งมา แสดงผลใน console ของ Browser
                 print_r($_POST);
             }
         }
@@ -46,19 +61,5 @@ class Model extends \Kotchasan\Model
             // คืนค่า JSON
             echo json_encode($ret);
         }
-    }
-
-    /**
-     * อ่านข้อมูลสำหรับใส่ลงในตาราง.
-     *
-     * @return array
-     */
-    public static function toDataTable()
-    {
-        $model = new static();
-
-        return $model->db()->createQuery()
-            ->select('id', 'name', 'active', 'social', 'phone', 'status', 'create_date', 'lastvisited', 'visited')
-            ->from('user');
     }
 }

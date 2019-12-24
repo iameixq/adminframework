@@ -32,8 +32,12 @@ class Model extends \Kotchasan\Model
     {
         $ret = array();
         // session, token, member
-        if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
-            // รับค่าจากการ POST
+        if ($request->initSession() && $request->isSafe() && Login::isMember()) {
+            /**
+             * รับค่าจากการ POST ที่ส่งมากับการ submit ฟอร์ม
+             *
+             * @source http://doc.kotchasan.com/class-Kotchasan.InputItem.html
+             */
             $save = array(
                 'username' => $request->post('register_username')->username(),
                 'password' => $request->post('register_password')->password(),
@@ -55,24 +59,34 @@ class Model extends \Kotchasan\Model
                 'social' => $request->post('register_social', array())->toInt(),
                 'id' => $request->post('register_id')->toInt(),
             );
-            // ดูค่าที่ส่งมา
+            // ดูค่าที่ส่งมา แสดงผลใน console ของ Browser
             //print_r($_POST);
             //print_r($save);
             if ($save['username'] == '') {
+                /**
+                 * error ไม่ได้กรอก username
+                 * ret_ เป็นคีย์เวอร์ดเพื่อบอกว่าเป็นการส่งค่ากลับไปยัง input
+                 * register_username ไอดีของ input ที่ต้องการส่งค่ากลับ
+                 */
                 $ret['ret_register_username'] = 'Please fill in';
             }
             if (empty($ret)) {
-                // บันทึกลงฐานข้อมูล
+                // บันทึกลงฐานข้อมูล (แก้ไข)
                 //$this->db()->update($this->getTableName('user'), $save['id'], $save);
-                // คืนค่า
+                // คืนค่าข้อความแจ้งเตือนสำเร็จ
                 $ret['alert'] = Language::get('Saved successfully');
-                // ไปหน้าแสดงรายการข้อมูล
+                // รีไดเร็คไปหน้าแสดงรายการข้อมูล ด้วยพารามิเตอร์ต่างๆของตารางที่เลือกไว้
                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'demo-table', 'id' => null));
-                // เคลียร์
+                // รีไดเร็คกลับไปหน้าตาราง
+                //$ret['location'] = WEB_URL.'index.php?module=demo-table';
+                // รีโหลดฟอร์ม
+                //$ret['location'] = 'reload';
+                // เคลียร์ token
                 $request->removeToken();
             }
         }
         if (empty($ret)) {
+            // แจ้งเตือนการ submit ไม่ถูกต้อง
             $ret['alert'] = Language::get('Unable to complete the transaction');
         }
         // คืนค่าเป็น JSON

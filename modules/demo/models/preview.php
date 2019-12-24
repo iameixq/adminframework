@@ -39,6 +39,7 @@ class Model extends \Kotchasan\Model
                 'username' => $request->post('register_username')->url(),
                 'id' => $request->post('register_id')->toInt(),
             );
+            // ดูค่าที่ส่งมา แสดงผลใน console ของ Browser
             //print_r($save);
             if ($save['username'] == '') {
                 // ไม่ได้กรอก
@@ -61,6 +62,7 @@ class Model extends \Kotchasan\Model
             }
         }
         if (empty($ret)) {
+            // แจ้งเตือนการ submit ไม่ถูกต้อง
             $ret['alert'] = Language::get('Unable to complete the transaction');
         }
         // คืนค่าเป็น JSON
